@@ -1,24 +1,15 @@
-use std::io::{BufReader, BufRead};
-use std::fs::{File};
 use std::io;
 use std::io::ErrorKind;
 
 use endpoint::util::{Command, VFS};
 use std::str::FromStr;
-use std::path::Path;
 
 fn main() -> io::Result<()> {
-    let current_dir = Path::new(file!()).parent().unwrap();
-    let path = current_dir.join("./sample.txt");
-    let file = File::open(path)?;
-
-    let reader = BufReader::new(file);
-
-    let lines = reader.lines().map(|x| x.unwrap());
+    let input = include_str!("sample.txt");
 
     let vfs = VFS::new();
 
-    for line in lines {
+    for line in input.lines() {
         println!("{}", line);
 
         if let Ok(cmd) = Command::from_str(&line[..]) {
